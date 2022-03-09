@@ -1,12 +1,12 @@
 //import express from 'express'; //another way
-const express = require("express");
+const express = require("express"); // same ^
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-const port = 6050;
+const port = 5090;
 //const actionRoute = require("./controller/actions");
 
 // m52IqzYfCZhqwvs0      // password
@@ -14,6 +14,8 @@ const port = 6050;
 
 //app.use("/api", actionRoute);
 
+const accountsRouter = require("./controllers/accounts");
+app.use("/api/accounts", accountsRouter);
 const url =
   "mongodb+srv://shop_user:m52IqzYfCZhqwvs0@cluster0.qov5m.mongodb.net/shop_db?retryWrites=true&w=majority";
 mongoose
