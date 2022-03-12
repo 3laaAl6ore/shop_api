@@ -3,6 +3,8 @@ const express = require("express"); // same ^
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
+const cors = require("cors");
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -13,6 +15,10 @@ const port = 5090;
 //mongodb+srv://shop_user:<password>@cluster0.qov5m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority //url
 
 //app.use("/api", actionRoute);
+
+
+// cors 
+app.use(cors());
 
 const accountsRouter = require("./controllers/accounts");
 app.use("/api/accounts", accountsRouter);

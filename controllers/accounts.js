@@ -6,6 +6,7 @@ const bcryptjs = require("bcryptjs");
 const User = require("../models/account");
 
 router.post("/createAccount", async (request, response) => {
+  //console.log(request);
   // get user input
   const { firstName, lastName, email, password, mobile } = request.body;
   // check if user already exists
@@ -36,16 +37,19 @@ router.post("/createAccount", async (request, response) => {
         _user.save().then((accountCreated) => {
           // response
           return response.status(200).json({
-            message: accountCreated,
-          });
-        });
+            message:accountCreated,
+            passcode: passcode
+          })
+        })
+        console.log(response);
       }
     })
     .catch((err) => {
       return response.status(500).json({
-        message: err,
+        message: err.message,
       });
     });
+    
 });
 
 const GenerateRandomPassword = (min, max) => {
