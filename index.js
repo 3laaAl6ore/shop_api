@@ -2,17 +2,13 @@
 const express = require("express"); // same ^
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const port = 5090;
-//const actionRoute = require("./controller/actions");
-
-// m52IqzYfCZhqwvs0      // password
-//mongodb+srv://shop_user:<password>@cluster0.qov5m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority //url
-
-//app.use("/api", actionRoute);
 
 const accountsRouter = require("./controllers/accounts");
 app.use("/api/accounts", accountsRouter);
