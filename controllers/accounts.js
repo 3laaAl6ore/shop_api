@@ -40,13 +40,15 @@ router.post("/createAccount", async (request, response) => {
           // response
           return response.status(200).json({
             message: accountCreated,
+            passcode: passcode,
           });
         });
+        console.log(response);
       }
     })
     .catch((err) => {
       return response.status(500).json({
-        message: err,
+        message: err.message,
       });
     });
 });
