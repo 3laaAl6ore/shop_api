@@ -5,7 +5,6 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 // Models
 const User = require("../models/account");
-
 // create a new account
 router.post("/createAccount", async (request, response) => {
   console.log(request);
@@ -52,7 +51,6 @@ router.post("/createAccount", async (request, response) => {
       });
     });
 });
-
 // login
 router.post("/login", async (request, response) => {
   const { email, password } = request.body;
@@ -103,7 +101,6 @@ router.post("/login", async (request, response) => {
       });
     });
 });
-
 // verify
 router.post("/verify", async (request, response) => {
   // get passcode and email
@@ -139,9 +136,8 @@ router.post("/verify", async (request, response) => {
       });
     });
 });
-
 // forget password =>post email
-router.post("/forgetPassword", (request, response) => {
+router.post("/forgetPassword", async (request, response) => {
   const { email } = request.body;
   User.findOne({ email: email })
     .then(async (user) => {
@@ -153,7 +149,7 @@ router.post("/forgetPassword", (request, response) => {
           .then((newPasscode) => {
             return response.status(200).json({
               message: "you get new passcode please enter it..",
-              passcode: passcode,
+              passcode: newPasscode,
             });
           })
           .catch((err) => {
@@ -173,7 +169,6 @@ router.post("/forgetPassword", (request, response) => {
       });
     });
 });
-
 // verifyRecover
 router.post("/verifyRecover", async (request, response) => {
   const { email, passcode } = request.body;
@@ -212,7 +207,6 @@ router.post("/verifyRecover", async (request, response) => {
       });
     });
 });
-
 //update password
 router.post("/updatePassword", async (request, response) => {
   const { email, password } = request.body;
@@ -259,11 +253,10 @@ router.post("/updatePassword", async (request, response) => {
       });
     });
 });
-
+//Generate Random Passcode
 const GenerateRandomPasscode = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
 };
-
 router.get("/sayHello", async (req, res) => {
   try {
     const users = await User.find();
