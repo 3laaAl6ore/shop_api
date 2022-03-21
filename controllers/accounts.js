@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const isAuth = require("./isAuth");
+
 // Models
 const User = require("../models/account");
 // create a new account
@@ -64,7 +66,7 @@ router.post("/login", async (request, response) => {
             const acc_data = {
               firstName: user.firstName,
               lastName: user.lastName,
-              avata: user.avata,
+              avatarUrl: user.avatarUrl,
               mobile: user.mobile,
               email: user.email,
               _id: user._id,
@@ -74,7 +76,6 @@ router.post("/login", async (request, response) => {
               acc_data,
               "A6cXZ9Mj5hM4As2wiIugIz5DHNO3q1VF"
             );
-
             // response
             return response.status(200).json({
               msg: token,
@@ -268,6 +269,12 @@ router.get("/sayHello", async (req, res) => {
       message: error.message,
     });
   }
+});
+//get user data
+router.get("/getUserData", isAuth, async (request, response) => {
+  return response.status(200).json({
+    message: `hello ${request.account.firstName}`,
+  });
 });
 
 module.exports = router;
