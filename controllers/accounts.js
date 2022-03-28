@@ -4,9 +4,9 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const isAuth = require("./isAuth");
-
 // Models
 const User = require("../models/account");
+const Store = require("../models/store");
 // create a new account
 router.post("/createAccount", async (request, response) => {
   console.log(request);
@@ -272,14 +272,15 @@ router.get("/sayHello", async (req, res) => {
 });
 //get user data
 router.get("/getUserData", isAuth, async (request, response) => {
+  const id = request.account._id;
+  const store = await Store.findOne({ associatedID: id }).populate(
+    "associatedID"
+  );
+
   return response.status(200).json({
-    message: `hello ${request.account.firstName}`,
+    // message: `hello ${request.account.firstName}`,
+    data: store,
   });
 });
-
-
-
-
-
 
 module.exports = router;

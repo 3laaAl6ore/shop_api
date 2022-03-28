@@ -15,10 +15,8 @@ app.use(cors());
 const accountsRouter = require("./controllers/accounts");
 const storeRouter = require("./controllers/store");
 
-
 app.use("/api/accounts", accountsRouter);
 app.use("/api/store", storeRouter);
-
 
 const url =
   "mongodb+srv://shop_user:m52IqzYfCZhqwvs0@cluster0.qov5m.mongodb.net/shop_db?retryWrites=true&w=majority";
