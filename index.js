@@ -12,11 +12,14 @@ const port = 5090;
 // cors
 app.use(cors());
 
+// Routers
 const accountsRouter = require("./controllers/accounts");
 const storeRouter = require("./controllers/store");
+const ProductRouter = require("./controllers/product");
 
 app.use("/api/accounts", accountsRouter);
 app.use("/api/store", storeRouter);
+app.use("/api/product", ProductRouter);
 
 const url =
   "mongodb+srv://shop_user:m52IqzYfCZhqwvs0@cluster0.qov5m.mongodb.net/shop_db?retryWrites=true&w=majority";

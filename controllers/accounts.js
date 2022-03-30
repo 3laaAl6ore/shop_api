@@ -282,5 +282,4 @@ router.get("/getUserData", isAuth, async (request, response) => {
     data: store,
   });
 });
-
 module.exports = router;

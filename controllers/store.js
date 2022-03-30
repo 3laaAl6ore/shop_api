@@ -5,6 +5,60 @@ const isAuth = require("./isAuth");
 const User = require("../models/account");
 const Store = require("../models/store");
 
+// put .. update store
+router.put("/updateStore", isAuth, async (request, response) => {
+  const associatedID = request.account._id;
+  const store = await Store.findOne({ associatedID: associatedID });
+
+  const {
+    storeName,
+    email,
+    mobile,
+    phone,
+    city,
+    address,
+    latitude,
+    longtitude,
+    storeDescription,
+    logo,
+    isTakeAway,
+    isDelivery,
+    workingHours,
+  } = request.body;
+
+  store.storeName = storeName;
+  store.storeDescription = storeDescription;
+  store.logo = logo;
+  store.isTakeAway = isTakeAway;
+  store.isDelivery = isDelivery;
+  store.workingHours = workingHours;
+  store.contactInfo = {
+    email: email,
+    mobile: mobile,
+    phone: phone,
+    city: city,
+    address: address,
+    latitude: latitude,
+    longtitude: longtitude,
+  };
+
+  const alaa = "my name is alaa";
+
+  store
+    .save()
+    .then((storeUpdated) => {
+      return response.status(200).json({
+        message: storeUpdated,
+      });
+    })
+    .catch((err) => {
+      return response.status(200).json({
+        message: err,
+      });
+    });
+});
+
+// create store
 router.post("/createStore", isAuth, async (request, response) => {
   const associatedID = request.account._id;
   const isStoreExist = await Store.findOne({ associatedID: associatedID });
@@ -25,7 +79,7 @@ router.post("/createStore", isAuth, async (request, response) => {
       city,
       address,
       latitude,
-      longitude,
+      longtitude,
     } = request.body;
     const account = await User.findById(associatedID);
     account.isBusiness = true;
@@ -47,7 +101,7 @@ router.post("/createStore", isAuth, async (request, response) => {
             city: city,
             address: address,
             latitude: latitude,
-            longitude: longitude,
+            longtitude: longtitude,
           },
           reviews: [],
           workingHours: [],
