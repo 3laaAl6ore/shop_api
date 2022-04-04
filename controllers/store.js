@@ -42,8 +42,6 @@ router.put("/updateStore", isAuth, async (request, response) => {
     longtitude: longtitude,
   };
 
-  const alaa = "my name is alaa";
-
   store
     .save()
     .then((storeUpdated) => {
@@ -57,7 +55,6 @@ router.put("/updateStore", isAuth, async (request, response) => {
       });
     });
 });
-
 // create store
 router.post("/createStore", isAuth, async (request, response) => {
   const associatedID = request.account._id;
