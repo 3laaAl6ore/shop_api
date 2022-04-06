@@ -4,9 +4,13 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const isAuth = require("./isAuth");
+
 // Models
 const User = require("../models/account");
 const Store = require("../models/store");
+const Catagory = require("../models/catogory");
+const Product = require("../models/product");
+
 // create a new account
 router.post("/createAccount", async (request, response) => {
   console.log(request);
@@ -276,10 +280,25 @@ router.get("/getUserData", isAuth, async (request, response) => {
   const store = await Store.findOne({ associatedID: id }).populate(
     "associatedID"
   );
+  const categories = await Catagory.find({ storeID: store._id });
+  const products = await Product.find({ storeID: store._id });
 
+  let AllCategories = [];
+  categories.forEach((category) => {
+    let _products = [];
+    products.forEach((product) => {
+      if (category._id.equals(product.catagoryID)) {
+        _products.push(product);
+      }
+    });
+    AllCategories.push({ category: category, product: _products });
+  });
   return response.status(200).json({
     // message: `hello ${request.account.firstName}`,
-    data: store,
+    //store: store,
+    //categories: categories,
+    // products: products,
+    AllCategories: AllCategories,
   });
 });
 module.exports = router;

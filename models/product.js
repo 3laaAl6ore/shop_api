@@ -18,6 +18,6 @@ const ProductSchema = new Schema({
   discount: { type: Number, default: 0 },
   unitInStock: Number,
   desclimer: String,
-  isLimited: Boolean,
+  isAgeLimited: { type: Boolean, default: false },
 });
 module.exports = mongoose.model("Product", ProductSchema);

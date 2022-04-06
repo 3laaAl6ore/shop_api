@@ -7,33 +7,29 @@ const Store = require("../models/store");
 const Category = require("../models/catogory");
 const Product = require("../models/product");
 
-router.post("/addProduct", isAuth, async (request, response) => {
+router.post("/addProduct/:categoryID", isAuth, async (request, response) => {
   const userID = request.account._id;
   const store = await Store.findOne({ associatedID: userID });
-  const category = await Category.findOne({ storeId: store._id });
+  const categoryID = request.params.categoryID;
   const proudctID = mongoose.Types.ObjectId();
   const {
     catagoryName,
     priority,
     productImages,
     price,
-    discount,
     unitInStock,
     desclimer,
-    isLimited,
     proudctName,
   } = request.body;
   const _proudct = new Product({
     _id: proudctID,
     storeID: store._id,
-    catagoryID: category._id,
+    catagoryID: categoryID,
     catagoryName: catagoryName,
     priority: priority,
     price: price,
-    discount: discount,
     unitInStock: unitInStock,
     productImages: productImages,
-    isLimited: isLimited,
     desclimer: desclimer,
     proudctName: proudctName,
   });
@@ -51,55 +47,61 @@ router.post("/addProduct", isAuth, async (request, response) => {
       });
     });
 });
-router.put("/updateProduct/:productId", isAuth, async (request, response) => {
-  const pid = request.params.productId;
-  Product.findById({ _id: pid })
-    .then((product) => {
-      const {
-        catagoryName,
-        priority,
-        productImages,
-        price,
-        discount,
-        unitInStock,
-        desclimer,
-        isLimited,
-        proudctName,
-      } = request.body;
-      (product.catagoryName = catagoryName),
-        (product.priority = priority),
-        (product.productImages = productImages),
-        (product.price = price),
-        (product.discount = discount),
-        (product.unitInStock = unitInStock),
-        (product.desclimer = desclimer),
-        (product.isLimited = isLimited),
-        (product.proudctName = proudctName),
-        product
-          .save()
-          .then((Proudct_Updated) => {
-            return response.status(200).json({
-              message: Proudct_Updated,
-            });
-          })
-          .catch((error) => {
-            return response.status(200).json({
-              message: error.message,
-            });
-          });
-    })
-    .catch((error) => {
-      return response.status(200).json({
-        message: error.message,
-      });
-    });
-});
-router.delete(
-  "/deleteProduct/:productId",
+router.put(
+  "/updateProduct/:productId/:categoryId",
   isAuth,
   async (request, response) => {
     const pid = request.params.productId;
-    Product.findByIdAndDelete({ _id: pid })
+    const cid = request.params.categoryId;
+    Product.findById({ _id: pid, catagoryID: cid })
+      .then((product) => {
+        const {
+          catagoryName,
+          priority,
+          productImages,
+          price,
+          discount,
+          unitInStock,
+          desclimer,
+          isLimited,
+          proudctName,
+        } = request.body;
+        (product.catagoryName = catagoryName),
+          (product.priority = priority),
+          (product.productImages = productImages),
+          (product.price = price),
+          (product.discount = discount),
+          (product.unitInStock = unitInStock),
+          (product.desclimer = desclimer),
+          (product.isLimited = isLimited),
+          (product.proudctName = proudctName),
+          product
+            .save()
+            .then((Proudct_Updated) => {
+              return response.status(200).json({
+                message: Proudct_Updated,
+              });
+            })
+            .catch((error) => {
+              return response.status(200).json({
+                message: error.message,
+              });
+            });
+      })
+      .catch((error) => {
+        return response.status(200).json({
+          message: error.message,
+        });
+      });
+  }
+);
+router.delete(
+  "/deleteProduct/:productId/:categoryId",
+  isAuth,
+  async (request, response) => {
+    const pid = request.params.productId;
+    const cid = request.params.categoryId;
+    Product.findByIdAndDelete({ _id: pid, catagoryID: cid })
       .then((product) => {
         return response.status(200).json({
           message: product,
@@ -127,6 +129,25 @@ router.get("/getAllProduct", isAuth, async (request, response) => {
       });
     });
 });
+router.get(
+  "/getAllProductByCategoryId/:categoryId",
+  isAuth,
+  async (request, response) => {
+    const categoryId = request.params.categoryId;
+    Product.find({ catagoryID: categoryId })
+      .then((Products) => {
+        return response.status(200).json({
+          message: Products,
+        });
+      })
+      .catch((error) => {
+        return response.status(200).json({
+          error: error,
+        });
+      });
+  }
+);
+
 router.get(
   "/getProductByProductId/:ProductId",
   isAuth,
