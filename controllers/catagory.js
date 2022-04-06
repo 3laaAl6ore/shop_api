@@ -22,9 +22,9 @@ router.post("/addCategory", isAuth, async (request, response) => {
   });
   _catagory
     .save()
-    .then((newProduct) => {
+    .then((newCategory) => {
       return response.status(200).json({
-        message: newProduct,
+        message: newCategory,
       });
     })
     .catch((err) => {
@@ -35,9 +35,9 @@ router.post("/addCategory", isAuth, async (request, response) => {
 });
 // update Category
 router.put("/updateCategory/:categoryId", isAuth, async (request, response) => {
-  const userID = request.account._id;
+  //const userID = request.account._id;
   const cid = request.params.categoryId;
-  Catagory.findById({ associatedID: userID })
+  Catagory.findById({ _id: cid })
     .then((category) => {
       const { catagoryName, priority, catagoryImage } = request.body;
       category.catagoryName = catagoryName;
@@ -99,12 +99,11 @@ router.get("/getAllCategories", isAuth, async (request, response) => {
 });
 
 router.get(
-  "/getCategoryByCategoryId:/categoryId",
+  "/getCategoryByCategoryId/:categoryId",
   isAuth,
   async (request, response) => {
-    const accountID = await request.account._id;
-    const store = await Store.findOne({ associatedID: accountID });
-    Catagory.find({ storeId: store._id })
+    const cid = request.params.categoryId;
+    Catagory.find({ _id: cid })
       .then((category) => {
         return response.status(200).json({
           message: category,
