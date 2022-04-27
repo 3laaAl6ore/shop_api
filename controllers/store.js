@@ -125,4 +125,13 @@ router.post("/createStore", isAuth, async (request, response) => {
   }
 });
 
+router.get('/getGeneralData' ,async (request, response)=>{
+
+  const store = await Store.find();
+  return response.status(200).json({
+    message: store,
+    status : true
+  })
+
+});
 module.exports = router;

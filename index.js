@@ -23,8 +23,10 @@ app.use("/api/store", storeRouter);
 app.use("/api/product", ProductRouter);
 app.use("/api/catagory", CatagoryRouter);
 
-const url =
-  "mongodb+srv://shop_user:m52IqzYfCZhqwvs0@cluster0.qov5m.mongodb.net/shop_db?retryWrites=true&w=majority";
+const url ="mongodb+srv://kiosk_user:mPfFB6de1GkUzMEf@cluster0.cxcp4.mongodb.net/kiosk_db?retryWrites=true&w=majority";// ale
+//"mongodb+srv://kiosk_user:mPfFB6de1GkUzMEf@cluster0.cxcp4.mongodb.net/kiosk_db?retryWrites=true&w=majority";// ale
+//my url//"mongodb+srv://shop_user:m52IqzYfCZhqwvs0@cluster0.qov5m.mongodb.net/shop_db?retryWrites=true&w=majority";
+
 mongoose
   .connect(url)
   .then((res) => {
