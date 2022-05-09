@@ -126,10 +126,10 @@ router.post("/createStore", isAuth, async (request, response) => {
 });
 
 router.get('/getGeneralData' ,async (request, response)=>{
-
+  console.log("status ok");
   const store = await Store.find();
   return response.status(200).json({
-    message: store,
+    stores: store,
     status : true
   })
 
