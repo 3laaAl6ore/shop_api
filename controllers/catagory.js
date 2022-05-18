@@ -82,13 +82,15 @@ router.delete(
       });
   }
 );
-router.get("/getAllCategories", isAuth, async (request, response) => {
-  const accountID = await request.account._id;
-  const store = await Store.findOne({ associatedID: accountID });
+router.get("/getAllCategories/:storeID",  async (request, response) => {
+  console.log("all in");
+  const accountID =  request.params.storeID;
+  const store = await Store.findById({ _id: accountID });
   Catagory.find({ storeId: store._id })
     .then((category) => {
       return response.status(200).json({
-        message: category,
+        status:true,
+        All_categories: category,
       });
     })
     .catch((error) => {

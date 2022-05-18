@@ -3,14 +3,14 @@ const Schema = mongoose.Schema;
 
 const storeSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    associateID: { type: mongoose.Schema.Types.ObjectId, ref:'User' },
+    associatedID: { type: mongoose.Types.ObjectId, ref:'User' },
     storeName: String,
     storeDescription: String,
     isTakeaway: Boolean,
     isDelivery: Boolean,
     subs: [
         {
-            associateId: { type: mongoose.Schema.Types.ObjectId, ref:'User' },
+            associateId: { type: mongoose.Types.ObjectId, ref:'User' },
         }
     ],
     contactInfo: {
@@ -24,7 +24,7 @@ const storeSchema = new Schema({
     },
     reviews: [
         {
-            accountId : { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            accountId : { type: mongoose.Types.ObjectId, ref: 'User' },
             reviewContext: String,
             createdAt: {type: Date, default: Date.now},
             rank: Number,

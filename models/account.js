@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  _id: mongoose.Schema.Types.ObjectId,
+  _id: mongoose.Types.ObjectId,
   email: String,
   password: String,
   mobile: String,
@@ -13,7 +13,7 @@ const userSchema = new Schema({
   },
   subs: [
     {
-      storeID: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
+      storeID: { type: mongoose.Types.ObjectId, ref: "Store" },
     },
   ],
   firstName: String,

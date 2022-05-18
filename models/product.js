@@ -6,8 +6,8 @@ const ProductSchema = new Schema({
   catagoryName: String,
   priority: Number,
   proudctName: String,
-  storeID: { type: mongoose.Schema.Types.ObjectId, ref: "Store" },
-  catagoryID: { type: mongoose.Schema.Types.ObjectId, ref: "Catagory" },
+  storeID: { type: mongoose.Types.ObjectId, ref: "Store" },
+  catagoryID: { type: mongoose.Types.ObjectId, ref: "Catagory" },
 
   productImages: [
     {
